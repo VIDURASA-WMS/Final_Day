@@ -23,6 +23,7 @@ const loadMoreBtn = document.getElementById("loadMoreBtn");
 const emptyStateEl = document.getElementById("emptyState");
 const newPostsBanner = document.getElementById("newPostsBanner");
 const sortButtons = document.querySelectorAll(".sort-btn");
+const sortIndicator = document.getElementById("sortIndicator");
 
 const welcomeOverlay = document.getElementById("welcomeOverlay");
 const welcomeImage = document.getElementById("welcomeImage");
@@ -160,7 +161,7 @@ function postCardHtml(post) {
   const isMine = post.device_id === myDeviceId;
 
   return `
-    <article class="card" data-id="${post.id}">
+    <article class="card" data-id="${post.id}" data-image-path="${post.image_path || ""}">
       ${imgUrl ? `<img class="card-img" src="${imgUrl}" loading="lazy" alt="Photo shared by ${displayName}">` : ""}
       <div class="card-body">
         <p class="card-text">${textToHtml(post.body)}</p>
@@ -367,7 +368,12 @@ feedEl.addEventListener("click", async (e) => {
       });
       
       if (error) throw error;
-      
+
+      const imagePath = card.dataset.imagePath;
+      if (imagePath) {
+        await client.storage.from(BUCKET).remove([imagePath]);
+      }
+
       card.remove();
     } catch (err) {
       console.error(err);
@@ -445,6 +451,14 @@ newPostsBanner.addEventListener("click", async () => {
 
 // ---------- sort toggle ----------
 
+function positionSortIndicator() {
+  if (!sortIndicator) return;
+  const activeBtn = document.querySelector(".sort-btn.is-active");
+  if (!activeBtn) return;
+  sortIndicator.style.width = `${activeBtn.offsetWidth}px`;
+  sortIndicator.style.transform = `translateX(${activeBtn.offsetLeft - 4}px)`;
+}
+
 sortButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const sort = btn.dataset.sort;
@@ -455,6 +469,7 @@ sortButtons.forEach((btn) => {
       b.classList.toggle("is-active", active);
       b.setAttribute("aria-selected", active ? "true" : "false");
     });
+    positionSortIndicator();
     newPostsBanner.hidden = true;
     feedEl.innerHTML = "";
     currentPage = 0;
@@ -462,6 +477,11 @@ sortButtons.forEach((btn) => {
     loadPage(0);
   });
 });
+
+window.addEventListener("resize", positionSortIndicator);
+window.addEventListener("load", positionSortIndicator);
+// Position immediately too (fonts/layout may still shift slightly, resize/load cover that)
+positionSortIndicator();
 
 // ---------- load more ----------
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Event Wall</title>
-<link rel="stylesheet" href="css/style.css?v=6.0">
+<link rel="stylesheet" href="css/style.css?v=7.0">
 </head>
 <body>
 
@@ -19,17 +19,16 @@
   <header class="site-header">
     <a href="admin.html" class="admin-login-btn">Admin</a>
     <h1 id="eventName">Our Event Wall</h1>
-    <!-- The subtitle paragraph has been removed from here -->
   </header>
 
   <!-- Formatted Welcome Message -->
   <div class="welcome-message-wrap">
     <p>You made it through! We want to wish every single one of you the absolute best of luck with your upcoming exam results. You’ve put in the hard work, so keep your head high and stay motivated—the best is yet to come.</p>
     <p>To wrap things up, we need a huge favor from you.</p>
-    
+
     <p><strong>The Real Talk: How did we do? 💬</strong><br>
     Drop a comment about our instructing team. Give us the good, the bad, and the ugly—we want to know how we can level up our game to improve things for next year.</p>
-    
+
     <p><strong>The Paper Center Hall of Fame 📸</strong><br>
     Scroll through your gallery and upload that one hilarious, silly photo you took at the paper center. Leave a funny caption, look through your friends' photos, and show them some love!</p>
   </div>
@@ -72,6 +71,7 @@
 
   <div class="sort-wrap">
     <div class="sort-toggle" role="tablist" aria-label="Sort posts">
+      <span class="sort-indicator" id="sortIndicator" aria-hidden="true"></span>
       <button type="button" class="sort-btn is-active" data-sort="newest" role="tab" aria-selected="true">Newest</button>
       <button type="button" class="sort-btn" data-sort="liked" role="tab" aria-selected="false">Popular</button>
     </div>
@@ -96,6 +96,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/supabase-client.js"></script>
-  <script src="js/app.js?v=6.0"></script>
+  <script src="js/app.js?v=7.0"></script>
 </body>
 </html>
