@@ -103,15 +103,24 @@ button:active { transform: scale(0.96); opacity: 0.8; }
   max-width: 520px;
   margin: 24px auto 0;
   padding: 0 24px;
-  text-align: center;
+  text-align: left; /* Shifted to left-align for much better paragraph readability */
 }
 
-#inlineWelcomeNote {
-  font-size: 1.05rem;
+.welcome-message-wrap p {
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--text-secondary);
-  margin: 0;
+  margin: 0 0 16px 0; /* Creates breathing room between paragraphs */
   letter-spacing: -0.01em;
+}
+
+.welcome-message-wrap p:last-child {
+  margin-bottom: 0;
+}
+
+.welcome-message-wrap strong {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 /* ---------- add-post button + form ---------- */
