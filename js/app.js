@@ -27,8 +27,9 @@ const sortButtons = document.querySelectorAll(".sort-btn");
 const welcomeOverlay = document.getElementById("welcomeOverlay");
 const welcomeImage = document.getElementById("welcomeImage");
 const welcomeTitle = document.getElementById("welcomeTitle");
-const welcomeNote = document.getElementById("welcomeNote");
 const welcomeCloseBtn = document.getElementById("welcomeCloseBtn");
+
+const inlineWelcomeNote = document.getElementById("inlineWelcomeNote"); // NEW TARGET
 
 const postForm = document.getElementById("postForm");
 const postFormPanel = document.getElementById("postFormPanel");
@@ -42,9 +43,15 @@ const imagePreview = document.getElementById("imagePreview");
 const submitBtn = document.getElementById("submitBtn");
 const formError = document.getElementById("formError");
 
+// Set text on the main page
 document.getElementById("eventName").textContent = EVENT_NAME;
 document.getElementById("eventSubtitle").textContent = EVENT_SUBTITLE;
 document.title = EVENT_NAME;
+
+// Print the welcome note directly to the page immediately
+if (inlineWelcomeNote) {
+  inlineWelcomeNote.textContent = WELCOME_NOTE;
+}
 
 // ---------- welcome overlay (shown once per visit) ----------
 
@@ -52,7 +59,6 @@ function initWelcomeOverlay() {
   if (sessionStorage.getItem("welcomeSeen") === "1") return;
 
   welcomeTitle.textContent = WELCOME_TITLE;
-  welcomeNote.textContent = WELCOME_NOTE;
 
   if (WELCOME_IMAGE) {
     welcomeImage.src = WELCOME_IMAGE;
@@ -159,7 +165,6 @@ function postCardHtml(post) {
   const liked = hasDone("liked", post.id);
   const reported = hasDone("reported", post.id);
   
-  // Check if this browser created the post
   const isMine = post.device_id === myDeviceId;
 
   return `
@@ -296,14 +301,12 @@ feedEl.addEventListener("click", async (e) => {
   if (!card) return;
   const postId = card.dataset.id;
 
-  // 1. LIKE / UNLIKE LOGIC
   const likeBtn = e.target.closest('[data-action="like"]');
   if (likeBtn) {
     const countEl = likeBtn.querySelector(".count");
     let currentCount = Number(countEl.textContent);
 
     if (hasDone("liked", postId)) {
-      // UNLIKE
       removeDone("liked", postId);
       likeBtn.classList.remove("is-active");
       countEl.textContent = Math.max(0, currentCount - 1);
@@ -314,7 +317,6 @@ feedEl.addEventListener("click", async (e) => {
         console.error("Couldn't unlike:", err);
       }
     } else {
-      // LIKE
       markDone("liked", postId);
       likeBtn.classList.add("is-active");
       countEl.textContent = currentCount + 1;
@@ -328,7 +330,6 @@ feedEl.addEventListener("click", async (e) => {
     return;
   }
 
-  // 2. TOGGLE COMMENTS
   const toggleBtn = e.target.closest('[data-action="toggle-comments"]');
   if (toggleBtn) {
     const commentsEl = card.querySelector(".comments");
@@ -342,7 +343,6 @@ feedEl.addEventListener("click", async (e) => {
     return;
   }
 
-  // 3. REPORT POST
   const reportBtn = e.target.closest('[data-action="report"]');
   if (reportBtn) {
     if (hasDone("reported", postId)) return;
@@ -360,13 +360,11 @@ feedEl.addEventListener("click", async (e) => {
     return;
   }
   
-  // 4. USER DELETE POST LOGIC
   const deleteMineBtn = e.target.closest('[data-action="delete-mine"]');
   if (deleteMineBtn) {
     const ok = confirm("Are you sure you want to permanently delete this post?");
     if (!ok) return;
     
-    // Visually disable button while it processes
     deleteMineBtn.disabled = true;
     deleteMineBtn.style.opacity = "0.5";
     
@@ -378,7 +376,6 @@ feedEl.addEventListener("click", async (e) => {
       
       if (error) throw error;
       
-      // If successful, instantly remove the card from the screen
       card.remove();
     } catch (err) {
       console.error(err);
@@ -562,7 +559,7 @@ postForm.addEventListener("submit", async (e) => {
       name,
       body,
       image_path: imagePath,
-      device_id: myDeviceId // We inject the browser ID so they own this post
+      device_id: myDeviceId 
     });
     if (insertError) throw insertError;
 
