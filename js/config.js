@@ -17,7 +17,7 @@ const ADMIN_EMAIL = "instructor@login.com";
 
 // What shows at the top of the page. Change this to your event!
 const EVENT_NAME = "Final Day";
-const EVENT_SUBTITLE = "Share a photo, a memory, or a message for everyone to see.";
+const EVENT_SUBTITLE = "Bandarawela Instructing Team 2026";
 
 // ------------------------------------------------------------
 // WELCOME SCREEN — a note + group photo shown once each time

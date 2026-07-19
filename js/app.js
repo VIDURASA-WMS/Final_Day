@@ -45,6 +45,7 @@ const formError = document.getElementById("formError");
 // Set text on the main page
 document.getElementById("eventName").textContent = EVENT_NAME;
 document.title = EVENT_NAME;
+document.getElementById("eventSubtitle").textContent = EVENT_SUBTITLE;
 
 // ---------- welcome overlay (shown once per visit) ----------
 
