@@ -29,5 +29,5 @@ const EVENT_SUBTITLE = "Share a photo, a memory, or a message for everyone to se
 //    If the file is missing or misnamed, the note still shows fine —
 //    it just won't have a picture.
 const WELCOME_IMAGE = "images/WELCOME_IMAGE.jpeg";
-const WELCOME_TITLE = "Welcome!";
-const WELCOME_NOTE = "We're so glad you're here — scroll down to see everyone's posts, and don't forget to add your own!";
+const WELCOME_TITLE = "​Welcome to the Finish Line!";
+const WELCOME_NOTE = "We want to wish every single one of you the absolute best of luck with your upcoming exam results. You've put in the hard work, so keep your head high and stay motivated—the best is yet to come.\n\nTo wrap things up, we need a huge favor from you:\n\nThe Real Talk: How did we do? 💬\nDrop a comment about our instructing team. Give us the good, the bad, and the ugly—we want to know how we can level up our game to improve things for next year.\n\nThe Paper Center Hall of Fame 📸\nScroll through your gallery and upload that one hilarious, silly photo you took at the paper center. Leave a funny caption, look through your friends' photos, and show them some love!";
