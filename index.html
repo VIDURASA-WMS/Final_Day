@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Event Wall</title>
-<!-- Version 5.0 added to force mobile devices to refresh -->
-<link rel="stylesheet" href="css/style.css?v=5.0">
+<link rel="stylesheet" href="css/style.css?v=6.0">
 </head>
 <body>
 
@@ -20,12 +19,19 @@
   <header class="site-header">
     <a href="admin.html" class="admin-login-btn">Admin</a>
     <h1 id="eventName">Our Event Wall</h1>
-    <p id="eventSubtitle">Share a photo, a memory, or a message for everyone to see.</p>
+    <!-- The subtitle paragraph has been removed from here -->
   </header>
 
-  <!-- This is the new scrolling welcome note container -->
+  <!-- Formatted Welcome Message -->
   <div class="welcome-message-wrap">
-    <p id="inlineWelcomeNote"></p>
+    <p>You made it through! We want to wish every single one of you the absolute best of luck with your upcoming exam results. You’ve put in the hard work, so keep your head high and stay motivated—the best is yet to come.</p>
+    <p>To wrap things up, we need a huge favor from you.</p>
+    
+    <p><strong>The Real Talk: How did we do? 💬</strong><br>
+    Drop a comment about our instructing team. Give us the good, the bad, and the ugly—we want to know how we can level up our game to improve things for next year.</p>
+    
+    <p><strong>The Paper Center Hall of Fame 📸</strong><br>
+    Scroll through your gallery and upload that one hilarious, silly photo you took at the paper center. Leave a funny caption, look through your friends' photos, and show them some love!</p>
   </div>
 
   <div class="compose-wrap">
@@ -90,7 +96,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/supabase-client.js"></script>
-  <!-- Version 5.0 added to force mobile refresh -->
-  <script src="js/app.js?v=5.0"></script>
+  <script src="js/app.js?v=6.0"></script>
 </body>
 </html>
