@@ -69,7 +69,7 @@ button:active { transform: scale(0.96); opacity: 0.8; }
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 0.5px solid var(--separator);
-  padding: 16px 16px;
+  padding: 16px 70px;
   text-align: center;
 }
 
@@ -278,8 +278,7 @@ button:active { transform: scale(0.96); opacity: 0.8; }
 .sort-wrap {
   text-align: center;
   margin: 20px 0 0;
-  position: sticky;
-  top: 76px;
+  position: relative;
   z-index: 15;
 }
 
