@@ -157,16 +157,16 @@ button:active { transform: scale(0.96); }
   max-width: 420px;
   width: calc(100% - 32px);
   border-radius: var(--radius-pill);
-  padding: 14px 50px;
+  padding: 14px 24px;
   text-align: center;
   transition: box-shadow 0.4s var(--smooth);
 }
 
 .header-menu {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
+  position: fixed;
+  top: 18px;
+  right: 16px;
+  z-index: 25;
 }
 
 .header-menu-btn {
