@@ -1,8 +1,0 @@
-Delete this file once you've added your real group photo here.
-
-1. Add your event's group photo to this "images" folder.
-   In GitHub: open the images folder > "Add file" > "Upload files".
-2. Make sure the file name matches WELCOME_IMAGE in js/config.js
-   (it defaults to "images/group-photo.jpg" — either rename your
-   photo to match, or edit that line in config.js to match your
-   photo's actual file name).
