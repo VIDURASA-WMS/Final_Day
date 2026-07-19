@@ -11,6 +11,13 @@ let newestSeenTimestamp = null;
 let isLoading = false;
 let currentSort = "newest"; // "newest" or "liked"
 
+// Generate a unique ID for this browser so they can delete their own posts later
+let myDeviceId = localStorage.getItem("device_id");
+if (!myDeviceId) {
+  myDeviceId = crypto.randomUUID();
+  localStorage.setItem("device_id", myDeviceId);
+}
+
 const feedEl = document.getElementById("feed");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
 const emptyStateEl = document.getElementById("emptyState");
@@ -50,8 +57,6 @@ function initWelcomeOverlay() {
   if (WELCOME_IMAGE) {
     welcomeImage.src = WELCOME_IMAGE;
     welcomeImage.hidden = false;
-    // If the photo file is missing/misnamed, hide the image gracefully
-    // instead of showing a broken-image icon — the note still shows.
     welcomeImage.onerror = () => { welcomeImage.hidden = true; };
   } else {
     welcomeImage.hidden = true;
@@ -95,14 +100,6 @@ function timeAgo(iso) {
   return Math.floor(diff / 86400) + "d ago";
 }
 
-function rotationFor(id) {
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) {
-    hash = (hash * 31 + id.charCodeAt(i)) % 1000;
-  }
-  return ((hash % 300) - 150) / 100; // roughly -1.5deg to 1.5deg
-}
-
 function imageUrlFromPath(path) {
   if (!path) return null;
   const { data } = client.storage.from(BUCKET).getPublicUrl(path);
@@ -112,12 +109,16 @@ function imageUrlFromPath(path) {
 function hasDone(action, postId) {
   return localStorage.getItem(`${action}_${postId}`) === "1";
 }
+
 function markDone(action, postId) {
   localStorage.setItem(`${action}_${postId}`, "1");
 }
 
-// Resize + compress an image in the browser before upload, so we
-// don't burn through storage/bandwidth with full-size phone photos.
+function removeDone(action, postId) {
+  localStorage.removeItem(`${action}_${postId}`);
+}
+
+// Compress images before upload
 function compressImage(file, maxDim = 1600, quality = 0.75) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -154,14 +155,15 @@ function compressImage(file, maxDim = 1600, quality = 0.75) {
 
 function postCardHtml(post) {
   const displayName = post.name && post.name.trim() ? escapeHtml(post.name.trim()) : "Anonymous";
-  const rot = rotationFor(post.id).toFixed(2);
   const imgUrl = imageUrlFromPath(post.image_path);
   const liked = hasDone("liked", post.id);
   const reported = hasDone("reported", post.id);
+  
+  // Check if this browser created the post
+  const isMine = post.device_id === myDeviceId;
 
   return `
-    <article class="card" style="--rot:${rot}deg" data-id="${post.id}">
-      <span class="pin" aria-hidden="true"></span>
+    <article class="card" data-id="${post.id}">
       ${imgUrl ? `<img class="card-img" src="${imgUrl}" loading="lazy" alt="Photo shared by ${displayName}">` : ""}
       <div class="card-body">
         <p class="card-text">${textToHtml(post.body)}</p>
@@ -171,7 +173,7 @@ function postCardHtml(post) {
           <span class="card-time">${timeAgo(post.created_at)}</span>
         </div>
         <div class="card-actions">
-          <button class="action-btn like-btn ${liked ? "is-active" : ""}" data-action="like" ${liked ? "disabled" : ""}>
+          <button class="action-btn like-btn ${liked ? "is-active" : ""}" data-action="like">
             <span class="icon">&hearts;</span> <span class="count">${post.like_count}</span>
           </button>
           <button class="action-btn comment-btn" data-action="toggle-comments">
@@ -180,6 +182,13 @@ function postCardHtml(post) {
           <button class="action-btn report-btn ${reported ? "is-active" : ""}" data-action="report" ${reported ? "disabled" : ""}>
             <span class="icon">&#9873;</span> <span class="label">${reported ? "Reported" : "Report"}</span>
           </button>
+          
+          ${isMine ? `
+          <button class="action-btn delete-btn" data-action="delete-mine">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+          ` : ""}
+
         </div>
         <div class="comments" hidden>
           <div class="comments-list"></div>
@@ -214,7 +223,6 @@ async function fetchPosts(page) {
   let query = client.from("posts").select("*").eq("hidden", false);
 
   if (currentSort === "liked") {
-    // Most-liked first; ties broken by newest.
     query = query.order("like_count", { ascending: false }).order("created_at", { ascending: false });
   } else {
     query = query.order("created_at", { ascending: false });
@@ -237,8 +245,6 @@ async function loadPage(page) {
   const posts = await fetchPosts(page);
 
   if (page === 0 && posts.length > 0) {
-    // Track the truly newest created_at in this batch, not just the first
-    // item — when sorted by "Most liked" the first item isn't the newest.
     const newestInBatch = posts.reduce(
       (max, p) => (new Date(p.created_at) > new Date(max) ? p.created_at : max),
       posts[0].created_at
@@ -261,7 +267,7 @@ async function loadPage(page) {
     } else {
       loadMoreBtn.hidden = false;
       loadMoreBtn.disabled = false;
-      loadMoreBtn.textContent = "Load more";
+      loadMoreBtn.textContent = "Load More";
     }
   }
   isLoading = false;
@@ -290,22 +296,39 @@ feedEl.addEventListener("click", async (e) => {
   if (!card) return;
   const postId = card.dataset.id;
 
+  // 1. LIKE / UNLIKE LOGIC
   const likeBtn = e.target.closest('[data-action="like"]');
   if (likeBtn) {
-    if (hasDone("liked", postId)) return;
-    markDone("liked", postId);
-    likeBtn.disabled = true;
-    likeBtn.classList.add("is-active");
     const countEl = likeBtn.querySelector(".count");
-    countEl.textContent = Number(countEl.textContent) + 1;
-    try {
-      await client.rpc("increment_like", { p_id: postId });
-    } catch (err) {
-      console.error(err);
+    let currentCount = Number(countEl.textContent);
+
+    if (hasDone("liked", postId)) {
+      // UNLIKE
+      removeDone("liked", postId);
+      likeBtn.classList.remove("is-active");
+      countEl.textContent = Math.max(0, currentCount - 1);
+      
+      try {
+        await client.rpc("decrement_like", { p_id: postId });
+      } catch (err) {
+        console.error("Couldn't unlike:", err);
+      }
+    } else {
+      // LIKE
+      markDone("liked", postId);
+      likeBtn.classList.add("is-active");
+      countEl.textContent = currentCount + 1;
+      
+      try {
+        await client.rpc("increment_like", { p_id: postId });
+      } catch (err) {
+        console.error("Couldn't like:", err);
+      }
     }
     return;
   }
 
+  // 2. TOGGLE COMMENTS
   const toggleBtn = e.target.closest('[data-action="toggle-comments"]');
   if (toggleBtn) {
     const commentsEl = card.querySelector(".comments");
@@ -319,6 +342,7 @@ feedEl.addEventListener("click", async (e) => {
     return;
   }
 
+  // 3. REPORT POST
   const reportBtn = e.target.closest('[data-action="report"]');
   if (reportBtn) {
     if (hasDone("reported", postId)) return;
@@ -332,6 +356,35 @@ feedEl.addEventListener("click", async (e) => {
       await client.rpc("report_post", { p_id: postId });
     } catch (err) {
       console.error(err);
+    }
+    return;
+  }
+  
+  // 4. USER DELETE POST LOGIC
+  const deleteMineBtn = e.target.closest('[data-action="delete-mine"]');
+  if (deleteMineBtn) {
+    const ok = confirm("Are you sure you want to permanently delete this post?");
+    if (!ok) return;
+    
+    // Visually disable button while it processes
+    deleteMineBtn.disabled = true;
+    deleteMineBtn.style.opacity = "0.5";
+    
+    try {
+      const { data, error } = await client.rpc("delete_my_post", { 
+        p_post_id: postId, 
+        p_device_id: myDeviceId 
+      });
+      
+      if (error) throw error;
+      
+      // If successful, instantly remove the card from the screen
+      card.remove();
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Couldn't delete the post.");
+      deleteMineBtn.disabled = false;
+      deleteMineBtn.style.opacity = "1";
     }
     return;
   }
@@ -509,6 +562,7 @@ postForm.addEventListener("submit", async (e) => {
       name,
       body,
       image_path: imagePath,
+      device_id: myDeviceId // We inject the browser ID so they own this post
     });
     if (insertError) throw insertError;
 
@@ -519,7 +573,6 @@ postForm.addEventListener("submit", async (e) => {
     postFormPanel.hidden = true;
     openFormBtn.hidden = false;
 
-    // Show the new post immediately at the top without waiting for a refetch.
     feedEl.innerHTML = "";
     currentPage = 0;
     reachedEnd = false;
@@ -531,10 +584,9 @@ postForm.addEventListener("submit", async (e) => {
     formError.hidden = false;
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = "Post to the wall";
+    submitBtn.textContent = "Post";
   }
 });
 
 // ---------- go ----------
-
 loadPage(0);
