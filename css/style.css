@@ -55,6 +55,25 @@ button {
   text-align: center;
 }
 
+.admin-login-btn {
+  position: absolute;
+  top: 22px;
+  right: 16px;
+  background: transparent;
+  border: 1px solid rgba(251, 245, 233, 0.35);
+  color: var(--paper);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.admin-login-btn:hover { 
+  background: rgba(255, 255, 255, 0.08); 
+}
+
 .site-header h1 {
   font-family: var(--font-display);
   font-optical-sizing: auto;
