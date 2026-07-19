@@ -74,6 +74,34 @@ document.addEventListener("click", (e) => {
   }
 });
 
+// ---------- hide header while scrolling down, reveal on scroll up ----------
+
+const siteHeader = document.getElementById("siteHeader");
+let lastScrollY = window.scrollY;
+let scrollTicking = false;
+
+function handleHeaderScroll() {
+  const currentY = window.scrollY;
+  const scrolledDown = currentY > lastScrollY;
+  const pastThreshold = currentY > 80;
+
+  if (scrolledDown && pastThreshold) {
+    siteHeader.classList.add("is-hidden");
+    closeHeaderMenu();
+  } else {
+    siteHeader.classList.remove("is-hidden");
+  }
+  lastScrollY = currentY;
+  scrollTicking = false;
+}
+
+window.addEventListener("scroll", () => {
+  if (!scrollTicking) {
+    requestAnimationFrame(handleHeaderScroll);
+    scrollTicking = true;
+  }
+});
+
 // ---------- welcome overlay (shown once per visit) ----------
 
 function initWelcomeOverlay() {
