@@ -28,6 +28,6 @@ const EVENT_SUBTITLE = "Share a photo, a memory, or a message for everyone to se
 // 2. Set WELCOME_IMAGE below to match the exact file name you used.
 //    If the file is missing or misnamed, the note still shows fine —
 //    it just won't have a picture.
-const WELCOME_IMAGE = "images/group-photo.jpg";
+const WELCOME_IMAGE = "images/WELCOME_IMAGE.jpeg";
 const WELCOME_TITLE = "Welcome!";
 const WELCOME_NOTE = "We're so glad you're here — scroll down to see everyone's posts, and don't forget to add your own!";
