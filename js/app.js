@@ -29,8 +29,6 @@ const welcomeImage = document.getElementById("welcomeImage");
 const welcomeTitle = document.getElementById("welcomeTitle");
 const welcomeCloseBtn = document.getElementById("welcomeCloseBtn");
 
-const inlineWelcomeNote = document.getElementById("inlineWelcomeNote"); // NEW TARGET
-
 const postForm = document.getElementById("postForm");
 const postFormPanel = document.getElementById("postFormPanel");
 const openFormBtn = document.getElementById("openFormBtn");
@@ -45,13 +43,7 @@ const formError = document.getElementById("formError");
 
 // Set text on the main page
 document.getElementById("eventName").textContent = EVENT_NAME;
-document.getElementById("eventSubtitle").textContent = EVENT_SUBTITLE;
 document.title = EVENT_NAME;
-
-// Print the welcome note directly to the page immediately
-if (inlineWelcomeNote) {
-  inlineWelcomeNote.textContent = WELCOME_NOTE;
-}
 
 // ---------- welcome overlay (shown once per visit) ----------
 
