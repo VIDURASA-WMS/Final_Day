@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Event Wall</title>
-<link rel="stylesheet" href="css/style.css?v=3.0">
+<link rel="stylesheet" href="css/style.css?v=4.0">
 </head>
 <body>
 
@@ -12,7 +12,7 @@
     <div class="welcome-card">
       <img id="welcomeImage" class="welcome-image" alt="Group photo">
       <h2 id="welcomeTitle">Welcome!</h2>
-      <p id="welcomeNote">We're so glad you're here.</p>
+      <!-- The paragraph was removed from here -->
       <button id="welcomeCloseBtn" class="btn-primary" type="button">Continue</button>
     </div>
   </div>
@@ -22,6 +22,11 @@
     <h1 id="eventName">Our Event Wall</h1>
     <p id="eventSubtitle">Share a photo, a memory, or a message for everyone to see.</p>
   </header>
+
+  <!-- NEW: Inline message that scrolls away naturally -->
+  <div class="welcome-message-wrap">
+    <p id="inlineWelcomeNote"></p>
+  </div>
 
   <div class="compose-wrap">
     <button id="openFormBtn" class="btn-open-form" type="button">
@@ -85,6 +90,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/supabase-client.js"></script>
-  <script src="js/app.js?v=3.0"></script>
+  <script src="js/app.js?v=4.0"></script>
 </body>
 </html>
