@@ -531,3 +531,7 @@ button:active { transform: scale(0.96); opacity: 0.8; }
 .admin-comment { display: flex; justify-content: space-between; align-items: flex-start; font-size: 0.9rem; padding: 6px 0; gap: 12px; }
 .btn-tiny { border: none; background: none; color: var(--ios-red); font-size: 0.85rem; font-weight: 600; padding: 4px; }
 .loading { color: var(--text-secondary); font-size: 0.95rem; text-align: center; }
+
+/* User Delete Button */
+.delete-btn { color: var(--ios-red) !important; margin-left: auto; flex: 0.5 !important; }
+.delete-btn:hover { background: rgba(255,59,48,0.1) !important; }
