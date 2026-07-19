@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Event Wall — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-body">
+
+  <header class="admin-header">
+    <h1 id="adminEventName">Event Wall — Admin</h1>
+    <button id="logoutBtn" class="btn-small-outline" hidden type="button">Log out</button>
+  </header>
+
+  <div id="loginPanel" class="login-wrap">
+    <div class="login-card">
+      <h2>Admin login</h2>
+      <form id="loginForm">
+        <input type="password" id="passwordInput" placeholder="Shared admin password" required autofocus>
+        <p id="loginError" class="login-error" hidden></p>
+        <button type="submit">Log in</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="dashboardPanel" class="dashboard" hidden>
+    <div class="dashboard-toolbar">
+      <span id="stats"></span>
+      <button id="refreshBtn" class="btn-small-outline" type="button">Refresh</button>
+    </div>
+    <div id="postList"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Event Wall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <h1 id="eventName">Our Event Wall</h1>
+    <p id="eventSubtitle">Share a photo, a memory, or a message for everyone to see.</p>
+  </header>
+
+  <div class="compose-wrap">
+    <button id="openFormBtn" class="btn-open-form" type="button">+ Add to the wall</button>
+
+    <div id="postFormPanel" class="form-panel" hidden>
+      <h2>Add to the wall</h2>
+      <form id="postForm">
+        <div class="form-row">
+          <input type="text" id="nameInput" placeholder="Your name" maxlength="60">
+        </div>
+        <label class="checkbox-row">
+          <input type="checkbox" id="anonCheckbox"> Post anonymously
+        </label>
+        <textarea id="bodyInput" placeholder="Say something…" maxlength="2000" required></textarea>
+
+        <label class="file-label">
+          📷 Add a photo (optional)
+          <input type="file" id="imageInput" accept="image/*">
+        </label>
+        <img id="imagePreview" class="image-preview" hidden alt="Selected photo preview">
+
+        <p id="formError" class="form-error" hidden></p>
+
+        <div class="form-actions">
+          <button type="button" id="cancelFormBtn" class="btn-secondary">Cancel</button>
+          <button type="submit" id="submitBtn" class="btn-primary">Post to the wall</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <button id="newPostsBanner" class="new-posts-banner" hidden type="button">🔄 New posts — tap to refresh</button>
+
+  <main class="feed" id="feed"></main>
+
+  <p id="emptyState" class="empty-state" hidden>Nothing here yet — be the first to post!</p>
+
+  <div class="load-more-wrap">
+    <button id="loadMoreBtn" class="btn-load-more" hidden type="button">Load more</button>
+  </div>
+
+  <footer class="site-footer">
+    <a href="admin.html">Admin</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
