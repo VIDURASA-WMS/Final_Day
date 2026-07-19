@@ -10,6 +10,15 @@
 </head>
 <body>
 
+  <div id="welcomeOverlay" class="welcome-overlay" hidden>
+    <div class="welcome-card">
+      <img id="welcomeImage" class="welcome-image" alt="Group photo">
+      <h2 id="welcomeTitle">Welcome!</h2>
+      <p id="welcomeNote">We're so glad you're here.</p>
+      <button id="welcomeCloseBtn" class="btn-primary" type="button">See the wall</button>
+    </div>
+  </div>
+
   <header class="site-header">
     <h1 id="eventName">Our Event Wall</h1>
     <p id="eventSubtitle">Share a photo, a memory, or a message for everyone to see.</p>
@@ -46,6 +55,11 @@
   </div>
 
   <button id="newPostsBanner" class="new-posts-banner" hidden type="button">🔄 New posts — tap to refresh</button>
+
+  <div class="sort-toggle" role="tablist" aria-label="Sort posts">
+    <button type="button" class="sort-btn is-active" data-sort="newest" role="tab" aria-selected="true">🕐 Newest</button>
+    <button type="button" class="sort-btn" data-sort="liked" role="tab" aria-selected="false">❤️ Most liked</button>
+  </div>
 
   <main class="feed" id="feed"></main>
 
