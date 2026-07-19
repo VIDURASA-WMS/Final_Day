@@ -3,7 +3,7 @@
 // ============================================================
 
 // From Supabase: Settings (gear icon) > Data API
-const SUPABASE_URL = "https://ksamwiaumbebzfflfwth.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://ksamwiaumbebzfflfwth.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_ftzf2u4dK4plWBjpGc66tw_1AOndaHt";
 
 // The email you used when creating your ONE shared admin login
