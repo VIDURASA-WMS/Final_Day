@@ -9,11 +9,19 @@ let currentPage = 0;
 let reachedEnd = false;
 let newestSeenTimestamp = null;
 let isLoading = false;
+let currentSort = "newest"; // "newest" or "liked"
 
 const feedEl = document.getElementById("feed");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
 const emptyStateEl = document.getElementById("emptyState");
 const newPostsBanner = document.getElementById("newPostsBanner");
+const sortButtons = document.querySelectorAll(".sort-btn");
+
+const welcomeOverlay = document.getElementById("welcomeOverlay");
+const welcomeImage = document.getElementById("welcomeImage");
+const welcomeTitle = document.getElementById("welcomeTitle");
+const welcomeNote = document.getElementById("welcomeNote");
+const welcomeCloseBtn = document.getElementById("welcomeCloseBtn");
 
 const postForm = document.getElementById("postForm");
 const postFormPanel = document.getElementById("postFormPanel");
@@ -30,6 +38,39 @@ const formError = document.getElementById("formError");
 document.getElementById("eventName").textContent = EVENT_NAME;
 document.getElementById("eventSubtitle").textContent = EVENT_SUBTITLE;
 document.title = EVENT_NAME;
+
+// ---------- welcome overlay (shown once per visit) ----------
+
+function initWelcomeOverlay() {
+  if (sessionStorage.getItem("welcomeSeen") === "1") return;
+
+  welcomeTitle.textContent = WELCOME_TITLE;
+  welcomeNote.textContent = WELCOME_NOTE;
+
+  if (WELCOME_IMAGE) {
+    welcomeImage.src = WELCOME_IMAGE;
+    welcomeImage.hidden = false;
+    // If the photo file is missing/misnamed, hide the image gracefully
+    // instead of showing a broken-image icon — the note still shows.
+    welcomeImage.onerror = () => { welcomeImage.hidden = true; };
+  } else {
+    welcomeImage.hidden = true;
+  }
+
+  welcomeOverlay.hidden = false;
+}
+
+function closeWelcomeOverlay() {
+  welcomeOverlay.hidden = true;
+  sessionStorage.setItem("welcomeSeen", "1");
+}
+
+welcomeCloseBtn.addEventListener("click", closeWelcomeOverlay);
+welcomeOverlay.addEventListener("click", (e) => {
+  if (e.target === welcomeOverlay) closeWelcomeOverlay();
+});
+
+initWelcomeOverlay();
 
 // ---------- helpers ----------
 
@@ -170,12 +211,16 @@ function commentHtml(c) {
 async function fetchPosts(page) {
   const from = page * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
-  const { data, error } = await client
-    .from("posts")
-    .select("*")
-    .eq("hidden", false)
-    .order("created_at", { ascending: false })
-    .range(from, to);
+  let query = client.from("posts").select("*").eq("hidden", false);
+
+  if (currentSort === "liked") {
+    // Most-liked first; ties broken by newest.
+    query = query.order("like_count", { ascending: false }).order("created_at", { ascending: false });
+  } else {
+    query = query.order("created_at", { ascending: false });
+  }
+
+  const { data, error } = await query.range(from, to);
   if (error) {
     console.error(error);
     return [];
@@ -192,7 +237,15 @@ async function loadPage(page) {
   const posts = await fetchPosts(page);
 
   if (page === 0 && posts.length > 0) {
-    newestSeenTimestamp = posts[0].created_at;
+    // Track the truly newest created_at in this batch, not just the first
+    // item — when sorted by "Most liked" the first item isn't the newest.
+    const newestInBatch = posts.reduce(
+      (max, p) => (new Date(p.created_at) > new Date(max) ? p.created_at : max),
+      posts[0].created_at
+    );
+    if (!newestSeenTimestamp || new Date(newestInBatch) > new Date(newestSeenTimestamp)) {
+      newestSeenTimestamp = newestInBatch;
+    }
   }
 
   if (posts.length === 0) {
@@ -346,6 +399,26 @@ newPostsBanner.addEventListener("click", async () => {
   reachedEnd = false;
   await loadPage(currentPage);
   window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// ---------- sort toggle ----------
+
+sortButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const sort = btn.dataset.sort;
+    if (sort === currentSort) return;
+    currentSort = sort;
+    sortButtons.forEach((b) => {
+      const active = b === btn;
+      b.classList.toggle("is-active", active);
+      b.setAttribute("aria-selected", active ? "true" : "false");
+    });
+    newPostsBanner.hidden = true;
+    feedEl.innerHTML = "";
+    currentPage = 0;
+    reachedEnd = false;
+    loadPage(0);
+  });
 });
 
 // ---------- load more ----------
