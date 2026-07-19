@@ -17,7 +17,14 @@
   </div>
 
   <header class="site-header">
-    <a href="admin.html" class="admin-login-btn">Admin</a>
+    <div class="header-menu">
+      <button id="headerMenuBtn" class="header-menu-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="More options">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg>
+      </button>
+      <div id="headerMenuDropdown" class="header-menu-dropdown" hidden>
+        <a href="admin.html" class="header-menu-item">Admin</a>
+      </div>
+    </div>
     <h1 id="eventName">Our Event Wall</h1>
     <p id="eventSubtitle"></p>
   </header>

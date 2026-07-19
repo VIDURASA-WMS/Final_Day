@@ -47,6 +47,33 @@ document.getElementById("eventName").textContent = EVENT_NAME;
 document.title = EVENT_NAME;
 document.getElementById("eventSubtitle").textContent = EVENT_SUBTITLE;
 
+// ---------- header three-dot menu ----------
+
+const headerMenuBtn = document.getElementById("headerMenuBtn");
+const headerMenuDropdown = document.getElementById("headerMenuDropdown");
+
+function closeHeaderMenu() {
+  headerMenuDropdown.hidden = true;
+  headerMenuBtn.setAttribute("aria-expanded", "false");
+}
+
+headerMenuBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = !headerMenuDropdown.hidden;
+  if (isOpen) {
+    closeHeaderMenu();
+  } else {
+    headerMenuDropdown.hidden = false;
+    headerMenuBtn.setAttribute("aria-expanded", "true");
+  }
+});
+
+document.addEventListener("click", (e) => {
+  if (!headerMenuDropdown.hidden && !e.target.closest(".header-menu")) {
+    closeHeaderMenu();
+  }
+});
+
 // ---------- welcome overlay (shown once per visit) ----------
 
 function initWelcomeOverlay() {
