@@ -24,10 +24,7 @@ const emptyStateEl = document.getElementById("emptyState");
 const newPostsBanner = document.getElementById("newPostsBanner");
 const sortButtons = document.querySelectorAll(".sort-btn");
 const sortIndicator = document.getElementById("sortIndicator");
-const specialThanksPanel = document.getElementById("specialThanksPanel");
-const specialThanksImage = document.getElementById("specialThanksImage");
-const specialThanksMessage = document.getElementById("specialThanksMessage");
-const loadMoreWrap = document.querySelector(".load-more-wrap");
+const thanksPanel = document.getElementById("thanksPanel");
 
 const welcomeOverlay = document.getElementById("welcomeOverlay");
 const welcomeImage = document.getElementById("welcomeImage");
@@ -50,18 +47,6 @@ const formError = document.getElementById("formError");
 document.getElementById("eventName").textContent = EVENT_NAME;
 document.title = EVENT_NAME;
 document.getElementById("eventSubtitle").textContent = EVENT_SUBTITLE;
-
-// ---------- special thanks tab content ----------
-
-if (typeof SPECIAL_THANKS_MESSAGE !== "undefined") {
-  specialThanksMessage.textContent = SPECIAL_THANKS_MESSAGE;
-}
-if (typeof SPECIAL_THANKS_IMAGE !== "undefined" && SPECIAL_THANKS_IMAGE) {
-  specialThanksImage.src = SPECIAL_THANKS_IMAGE;
-  specialThanksImage.onerror = () => { specialThanksImage.hidden = true; };
-} else {
-  specialThanksImage.hidden = true;
-}
 
 // ---------- header three-dot menu ----------
 
@@ -531,6 +516,19 @@ function positionSortIndicator() {
   sortIndicator.style.transform = `translateX(${activeBtn.offsetLeft - 4}px)`;
 }
 
+function showThanksPanel() {
+  feedEl.hidden = true;
+  emptyStateEl.hidden = true;
+  loadMoreBtn.hidden = true;
+  newPostsBanner.hidden = true;
+  thanksPanel.hidden = false;
+}
+
+function hideThanksPanel() {
+  thanksPanel.hidden = true;
+  feedEl.hidden = false;
+}
+
 sortButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const sort = btn.dataset.sort;
@@ -545,16 +543,11 @@ sortButtons.forEach((btn) => {
     newPostsBanner.hidden = true;
 
     if (sort === "thanks") {
-      feedEl.hidden = true;
-      emptyStateEl.hidden = true;
-      loadMoreWrap.hidden = true;
-      specialThanksPanel.hidden = false;
+      showThanksPanel();
       return;
     }
 
-    specialThanksPanel.hidden = true;
-    feedEl.hidden = false;
-    loadMoreWrap.hidden = false;
+    hideThanksPanel();
     feedEl.innerHTML = "";
     currentPage = 0;
     reachedEnd = false;
