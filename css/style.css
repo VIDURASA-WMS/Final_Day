@@ -127,6 +127,7 @@ button:active { transform: scale(0.96); }
 .form-panel,
 .welcome-card,
 .sort-toggle,
+.special-thanks-panel,
 .card,
 .comment-text,
 .btn-open-form,
@@ -462,22 +463,6 @@ button:active { transform: scale(0.96); }
 }
 .sort-btn.is-active { color: var(--text-primary); }
 
-.btn-special-thanks {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 12px auto 0;
-  background: rgba(127,127,127,0.12);
-  color: var(--ios-blue);
-  border: none;
-  border-radius: var(--radius-pill);
-  padding: 8px 18px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: transform 0.2s var(--spring), opacity 0.15s;
-}
-.btn-special-thanks:active { transform: scale(0.95); }
-
 /* sliding indicator, positioned via JS */
 .sort-indicator {
   position: absolute;
@@ -492,6 +477,33 @@ button:active { transform: scale(0.96); }
   transition: transform 0.4s var(--spring), width 0.4s var(--spring);
   z-index: 1;
   pointer-events: none;
+}
+
+/* ---------- special thanks panel ---------- */
+
+.special-thanks-panel {
+  max-width: 520px;
+  margin: 20px auto 0;
+  padding: 28px 24px 32px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  animation: fadeIn 0.4s var(--smooth);
+}
+
+.special-thanks-image {
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--radius-md);
+  margin: 0 auto 22px;
+  display: block;
+  border: 1px solid var(--glass-border);
+}
+
+.special-thanks-message {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 /* ---------- new posts banner ---------- */

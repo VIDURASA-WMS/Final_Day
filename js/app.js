@@ -24,6 +24,10 @@ const emptyStateEl = document.getElementById("emptyState");
 const newPostsBanner = document.getElementById("newPostsBanner");
 const sortButtons = document.querySelectorAll(".sort-btn");
 const sortIndicator = document.getElementById("sortIndicator");
+const specialThanksPanel = document.getElementById("specialThanksPanel");
+const specialThanksImage = document.getElementById("specialThanksImage");
+const specialThanksMessage = document.getElementById("specialThanksMessage");
+const loadMoreWrap = document.querySelector(".load-more-wrap");
 
 const welcomeOverlay = document.getElementById("welcomeOverlay");
 const welcomeImage = document.getElementById("welcomeImage");
@@ -46,6 +50,18 @@ const formError = document.getElementById("formError");
 document.getElementById("eventName").textContent = EVENT_NAME;
 document.title = EVENT_NAME;
 document.getElementById("eventSubtitle").textContent = EVENT_SUBTITLE;
+
+// ---------- special thanks tab content ----------
+
+if (typeof SPECIAL_THANKS_MESSAGE !== "undefined") {
+  specialThanksMessage.textContent = SPECIAL_THANKS_MESSAGE;
+}
+if (typeof SPECIAL_THANKS_IMAGE !== "undefined" && SPECIAL_THANKS_IMAGE) {
+  specialThanksImage.src = SPECIAL_THANKS_IMAGE;
+  specialThanksImage.onerror = () => { specialThanksImage.hidden = true; };
+} else {
+  specialThanksImage.hidden = true;
+}
 
 // ---------- header three-dot menu ----------
 
@@ -131,22 +147,6 @@ welcomeOverlay.addEventListener("click", (e) => {
 });
 
 initWelcomeOverlay();
-
-// ---------- special thanks overlay ----------
-
-const specialThanksBtn = document.getElementById("specialThanksBtn");
-const specialThanksOverlay = document.getElementById("specialThanksOverlay");
-const specialThanksCloseBtn = document.getElementById("specialThanksCloseBtn");
-
-specialThanksBtn.addEventListener("click", () => {
-  specialThanksOverlay.hidden = false;
-});
-specialThanksCloseBtn.addEventListener("click", () => {
-  specialThanksOverlay.hidden = true;
-});
-specialThanksOverlay.addEventListener("click", (e) => {
-  if (e.target === specialThanksOverlay) specialThanksOverlay.hidden = true;
-});
 
 // ---------- helpers ----------
 
@@ -543,6 +543,18 @@ sortButtons.forEach((btn) => {
     });
     positionSortIndicator();
     newPostsBanner.hidden = true;
+
+    if (sort === "thanks") {
+      feedEl.hidden = true;
+      emptyStateEl.hidden = true;
+      loadMoreWrap.hidden = true;
+      specialThanksPanel.hidden = false;
+      return;
+    }
+
+    specialThanksPanel.hidden = true;
+    feedEl.hidden = false;
+    loadMoreWrap.hidden = false;
     feedEl.innerHTML = "";
     currentPage = 0;
     reachedEnd = false;

@@ -31,3 +31,16 @@ const EVENT_SUBTITLE = "Bandarawela Instructing Team 2026";
 const WELCOME_IMAGE = "images/WELCOME_IMAGE.jpeg";
 const WELCOME_TITLE = "​Welcome to the Finish Line!";
 const WELCOME_NOTE = "We want to wish every single one of you the absolute best of luck with your upcoming exam. You've put in the hard work, so keep your head high and stay motivated—the best is yet to come.\n\nTo wrap things up, we need a huge favor from you:\n\n\nThe Real Talk: How did we do? 💬\nDrop a comment about our instructing team. Give us the good, the bad, and the ugly—we want to know how we can level up our game to improve things for next year.\n\n\nThe Paper Center Hall of Fame 📸\nScroll through your gallery and upload that one hilarious, silly photo you took at the paper center. Leave a funny caption, look through your friends' photos, and show them some love!";
+
+// ------------------------------------------------------------
+// SPECIAL THANKS TAB — shown when someone taps the "Special
+// Thanks" tab next to Newest / Popular on the main wall.
+// ------------------------------------------------------------
+// 1. Add your photo to the "images" folder in this project, same
+//    as the welcome photo above (in GitHub: images folder > Add
+//    file > Upload files).
+// 2. Set SPECIAL_THANKS_IMAGE below to match the exact file name
+//    you used. If it's missing or misnamed, the message still
+//    shows fine — it just won't have a picture.
+const SPECIAL_THANKS_IMAGE = "images/SPECIAL_THANKS_IMAGE.jpeg";
+const SPECIAL_THANKS_MESSAGE = "A special thank you to Amila Dasanayake and Anuradha Perera for giving us the invaluable opportunity to be part of this paper marking panel. Your guidance and the experience we've gained here have been incredibly valuable, and we're very thankful for your support throughout this journey.";
