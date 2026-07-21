@@ -508,7 +508,7 @@ newPostsBanner.addEventListener("click", async () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// ---------- sort toggle ----------
+// ---------- sort toggle & tab switching ----------
 
 function positionSortIndicator() {
   if (!sortIndicator) return;
@@ -519,20 +519,17 @@ function positionSortIndicator() {
 }
 
 function showThanksPanel() {
-  welcomeMessageWrap.hidden = true;
-  composeWrap.hidden = true;
+  // Only hide posts-related content
   feedEl.hidden = true;
-  feedEl.innerHTML = "";
   emptyStateEl.hidden = true;
   loadMoreBtn.hidden = true;
   newPostsBanner.hidden = true;
+  
   thanksPanel.hidden = false;
 }
 
 function hideThanksPanel() {
   thanksPanel.hidden = true;
-  welcomeMessageWrap.hidden = false;
-  composeWrap.hidden = false;
   feedEl.hidden = false;
 }
 
@@ -541,6 +538,7 @@ sortButtons.forEach((btn) => {
     const sort = btn.dataset.sort;
     if (sort === currentSort) return;
     currentSort = sort;
+    
     sortButtons.forEach((b) => {
       const active = b === btn;
       b.classList.toggle("is-active", active);
