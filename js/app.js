@@ -25,6 +25,8 @@ const newPostsBanner = document.getElementById("newPostsBanner");
 const sortButtons = document.querySelectorAll(".sort-btn");
 const sortIndicator = document.getElementById("sortIndicator");
 const thanksPanel = document.getElementById("thanksPanel");
+const welcomeMessageWrap = document.getElementById("welcomeMessageWrap");
+const composeWrap = document.getElementById("composeWrap");
 
 const welcomeOverlay = document.getElementById("welcomeOverlay");
 const welcomeImage = document.getElementById("welcomeImage");
@@ -517,7 +519,10 @@ function positionSortIndicator() {
 }
 
 function showThanksPanel() {
+  welcomeMessageWrap.hidden = true;
+  composeWrap.hidden = true;
   feedEl.hidden = true;
+  feedEl.innerHTML = "";
   emptyStateEl.hidden = true;
   loadMoreBtn.hidden = true;
   newPostsBanner.hidden = true;
@@ -526,6 +531,8 @@ function showThanksPanel() {
 
 function hideThanksPanel() {
   thanksPanel.hidden = true;
+  welcomeMessageWrap.hidden = false;
+  composeWrap.hidden = false;
   feedEl.hidden = false;
 }
 
