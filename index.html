@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Event Wall</title>
-<link rel="stylesheet" href="css/style.css?v=7.1">
+<link rel="stylesheet" href="css/style.css?v=7.0">
 </head>
 <body>
 
@@ -92,15 +92,17 @@
 
   <main class="feed" id="feed"></main>
 
+  <div id="thanksPanel" class="thanks-panel" hidden>
+    <div class="thanks-card">
+      <img src="images/thanks-photo.png" alt="Amila Dasanayake and Anuradha Perera with the instructing team" class="thanks-photo">
+      <p class="thanks-message">A special thank you to <strong>Amila Dasanayake</strong> and <strong>Anuradha Perera</strong> for giving us the invaluable opportunity to be part of this paper marking panel. Your guidance and the experience we've gained here have been incredibly valuable, and we're very thankful for your support throughout this journey.</p>
+    </div>
+  </div>
+
   <p id="emptyState" class="empty-state" hidden>Nothing here yet — be the first to post!</p>
 
   <div class="load-more-wrap">
     <button id="loadMoreBtn" class="btn-load-more" hidden type="button">Load More</button>
-  </div>
-
-  <div id="specialThanksPanel" class="special-thanks-panel" hidden>
-    <img id="specialThanksImage" class="special-thanks-image" alt="Amila Dasanayake and Anuradha Perera">
-    <p id="specialThanksMessage" class="special-thanks-message"></p>
   </div>
 
   <footer class="site-footer">
@@ -110,6 +112,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/supabase-client.js"></script>
-  <script src="js/app.js?v=7.1"></script>
+  <script src="js/app.js?v=7.0"></script>
 </body>
 </html>
