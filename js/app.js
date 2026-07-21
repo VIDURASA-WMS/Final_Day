@@ -132,6 +132,22 @@ welcomeOverlay.addEventListener("click", (e) => {
 
 initWelcomeOverlay();
 
+// ---------- special thanks overlay ----------
+
+const specialThanksBtn = document.getElementById("specialThanksBtn");
+const specialThanksOverlay = document.getElementById("specialThanksOverlay");
+const specialThanksCloseBtn = document.getElementById("specialThanksCloseBtn");
+
+specialThanksBtn.addEventListener("click", () => {
+  specialThanksOverlay.hidden = false;
+});
+specialThanksCloseBtn.addEventListener("click", () => {
+  specialThanksOverlay.hidden = true;
+});
+specialThanksOverlay.addEventListener("click", (e) => {
+  if (e.target === specialThanksOverlay) specialThanksOverlay.hidden = true;
+});
+
 // ---------- helpers ----------
 
 function escapeHtml(str) {
