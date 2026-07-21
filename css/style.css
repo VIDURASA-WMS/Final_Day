@@ -127,7 +127,6 @@ button:active { transform: scale(0.96); }
 .form-panel,
 .welcome-card,
 .sort-toggle,
-.special-thanks-panel,
 .card,
 .comment-text,
 .btn-open-form,
@@ -481,30 +480,41 @@ button:active { transform: scale(0.96); }
 
 /* ---------- special thanks panel ---------- */
 
-.special-thanks-panel {
+.thanks-panel {
   max-width: 520px;
-  margin: 20px auto 0;
-  padding: 28px 24px 32px;
+  margin: 28px auto 0;
+  padding: 8px 16px 120px;
+}
+
+.thanks-card {
   border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--glass-fill-strong);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    0 3px 10px rgba(0,0,0,0.14);
+  animation: cardIn 0.5s var(--smooth) both;
   text-align: center;
-  animation: fadeIn 0.4s var(--smooth);
 }
 
-.special-thanks-image {
-  width: 100%;
-  max-width: 320px;
-  border-radius: var(--radius-md);
-  margin: 0 auto 22px;
+.thanks-photo {
   display: block;
-  border: 1px solid var(--glass-border);
+  width: 70%;
+  max-width: 320px;
+  margin: 32px auto 0;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.18));
 }
 
-.special-thanks-message {
+.thanks-message {
+  margin: 24px 0 0;
+  padding: 0 28px 32px;
   font-size: 1rem;
   line-height: 1.55;
-  color: var(--text-secondary);
-  margin: 0;
+  color: var(--text-primary);
 }
+
+.thanks-message strong { color: var(--ios-blue); }
 
 /* ---------- new posts banner ---------- */
 .banner-wrap { text-align: center; height: 0; }
