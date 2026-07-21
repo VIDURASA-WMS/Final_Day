@@ -480,6 +480,10 @@ button:active { transform: scale(0.96); }
 
 /* ---------- special thanks panel ---------- */
 
+.thanks-panel[hidden], .feed[hidden] {
+  display: none !important;
+}
+
 .thanks-panel {
   max-width: 520px;
   margin: 28px auto 0;
